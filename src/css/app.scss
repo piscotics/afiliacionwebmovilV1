@@ -1,0 +1,33 @@
+// app global css in SCSS form
+
+body {
+  background-color: $background;
+  color: #000000;
+}
+
+.body-cards {
+  background-color: $background;
+  color: $text-contrast;
+}
+
+// body.body--dark {
+//   background-color: $background;
+// }
+
+.btn-estandar {
+  margin-top: 15px;
+}
+
+.btn-estandar .q-btn {
+  width: 80%;
+  margin: 2px 0px;
+}
+
+.btn-estandar .btn-primary {
+  color: #fff;
+  background-color: $primary;
+}
+
+.btn-estandar .btn-optional {
+  color: #79490a;
+}

@@ -1,0 +1,18 @@
+{
+    "android": {
+        "debug": {
+            "keystore": "/media/devfko/Documentos/keys-android/keys.jks",
+            "storePassword": "devfko",
+            "alias": "devfko",
+            "password" : "devfko",
+            "keystoreType": "jks"
+        },
+        "release": {
+            "keystore": "/media/devfko/Documentos/keys-android/keys.jks",
+            "storePassword": "devfko",
+            "alias": "devfko",
+            "password" : "devfko",
+            "keystoreType": "jks"
+        }
+    }
+}
