@@ -1,9 +1,12 @@
 <template>
   <q-page class="flex flex-center">
     <q-card class="home-card">
-      <img
-        src="https://piscotics.com/wp-content/uploads/2020/06/O7MF5N0-scaled.jpg"
-      />
+      
+
+      <img v-bind:src="`https://piscotics.com/LogoClientes/L${ infoEmpresa.nitEmpresa }.jpg`"  height="200px">
+
+
+
 
       <q-list>
         <q-item>

@@ -10,6 +10,7 @@ const routes = [
       { path: '/camera', component: () => import('pages/camera/Index.vue') },
       { path: '/zones', component: () => import('pages/params/zones/Index.vue'), meta: { requiresAuth: true } },
       { path: '/offices', component: () => import('pages/params/offices/Index.vue'), meta: { requiresAuth: true } },
+      { path: '/kinship', component: () => import('pages/params/Kinship/Index.vue'), meta: { requiresAuth: true } },
       { path: '/plans', component: () => import('pages/params/plans/Index.vue'), meta: { requiresAuth: true } },
       { path: '/employees', component: () => import('pages/params/employees/Index.vue'), meta: { requiresAuth: true } },
       { path: '/contract', name: 'contract', component: () => import('pages/contract/Index.vue'), meta: { requiresAuth: true } },

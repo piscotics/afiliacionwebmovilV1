@@ -70,7 +70,12 @@ export default {
 
     //probar eliminando local store de pisco-afilweb
     
+    if(this.$q.localStorage.isEmpty = false){
+      this.$q.localStorage.remove("pisco-afilweb");
       this.$q.localStorage.set("pisco-afilweb", dataConfig);
+    }else{
+      this.$q.localStorage.set("pisco-afilweb", dataConfig);
+    }
 
       axios.defaults.baseUrl = this.server;
 

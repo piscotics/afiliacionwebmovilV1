@@ -1,33 +1,47 @@
 const linksMenu = [
+   
+    {
+        title: "Contrato",
+        caption: "Crear Contratos",
+        icon: "book",
+        link: "/contract"
+    },
+    
+    {
+        title: "Pagos",
+        caption: "Registrar Pagos",
+        icon: "attach_money",
+        link: "/payments"
+    },
     {
         title: "Zonas",
         caption: "Ver Zonas",
-        icon: "view_in_ar",
+        icon: "south_america",
         link: "/zones"
     },
     {
         title: "Sucursales",
         caption: "Ver Sucursales",
-        icon: "view_in_ar",
+        icon: "location_city",
         link: "/offices"
     },
     {
         title: "Planes",
         caption: "Ver Planes",
-        icon: "view_in_ar",
+        icon: "assignment_turned_in",
         link: "/plans"
     },
     {
         title: "Empleados",
         caption: "Ver Empleados",
-        icon: "view_in_ar",
+        icon: "manage_accounts",
         link: "/employees"
     },
     {
-        title: "Contrato",
-        caption: "Crear Contratos",
-        icon: "view_in_ar",
-        link: "/contract"
+        title: "Parentesco",
+        caption: "Ver Parentescos",
+        icon: "people",
+        link: "/Kinship"
     },
     /* {
         title: "Cámara",

@@ -50,9 +50,9 @@ export const Contract =  {
           celular1: titular.celular1,
           celular2: titular.celular2 || "",
           email: titular.email,
-          fechanacimiento: titular.fechaNacimiento,
+          fechanacimiento: moment(titular.fechaNacimiento,"YYYY-MM-DD"),
           genero: titular.genero.substring(0, 1),
-          fechacobertura: titular.fechaCobertura,
+          fechacobertura:  moment(titular.fechaCobertura,"YYYY-MM-DD"),
           fechaafiliacion: contrato.fechaAfiliacion
         },
         tipoafiliacion: contrato.tipoAfiliacion,
@@ -84,6 +84,7 @@ export const Contract =  {
         subdominio: localStorage.subdomain
       };
         
+      console.log('el contrato a guardar es',JSON.stringify( data) )
 
     return await api
         .post(endpoint.apiContrato + "create/", data, { headers })

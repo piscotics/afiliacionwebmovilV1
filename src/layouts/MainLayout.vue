@@ -23,14 +23,14 @@
       <router-view />
     </q-page-container>
 
-    <q-footer bordered class="bg-white text-primary">
+  <!--  <q-footer bordered class="bg-white text-primary">
       <q-banner dense style="margin: 0; padding: 0;">
         <img
           src="@/assets/banner_inferior.png"
           style="width: 100%; height: 72px"
         />
       </q-banner>
-    </q-footer>
+    </q-footer>-->
   </q-layout>
 </template>
 

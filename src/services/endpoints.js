@@ -3,6 +3,8 @@ const endpoints = {
     apiEmpresa: '/api/business/',
     apiEmpleado: '/api/employee/',
     apiSucursal: '/api/office/',
+    apiKinship: '/api/kinship/',
+    apiBenefi: '/api/benefi/',
     apiPlan: '/api/plan/',
     apiZona: '/api/zone/',
     apiDepartamento: '/api/department/',

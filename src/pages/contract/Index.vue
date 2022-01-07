@@ -124,7 +124,7 @@
             <div class="col-12 col-md-3 col-sm-4">
               <q-select
                 filled
-                v-model="titular.municipio"
+                v-model="titular.municipio.idMunicipio"
                 :options="municipios"
                 option-value="idMunicipio"
                 option-label="municipio"
@@ -382,7 +382,7 @@
             <div class="col-12 col-md-4 col-sm-4">
               <q-select
                 filled
-                v-model="contrato.zona"
+                v-model="contrato.zona.id"
                 :options="zonas"
                 option-value="id"
                 option-label="nombreZona"
@@ -395,7 +395,7 @@
             <div class="col-12 col-md-4 col-sm-4">
               <q-select
                 filled
-                v-model="contrato.sucursal"
+                v-model="contrato.sucursal.id"
                 :options="sucursales"
                 label="* Sucursal"
                 option-value="id"
@@ -446,14 +446,31 @@
                 v-model="contrato.observaciones"
                 type="text"
                 label="Observaciones"
-                :rules="freeRules"
+               
               />
             </div>
           </div>
         </q-form>
 
         <q-stepper-navigation>
+           <q-btn
+            flat
+            color="deep-orange"
+            @click="$refs.stepper.previous()"
+            label="Atrás"
+            class="q-ml-sm"
+          />
+           <q-btn
+           v-if="isEdit=false"
+            @click="saveContract"
+            color="secondary"
+            label="Guardar Contrato"
+            :disable="disabled"
+            :loading="loading"
+          ></q-btn>
+
           <q-btn
+        
             @click="
               () => {
                 this.$refs.form_titular.validate().then(valid => {
@@ -464,31 +481,86 @@
               }
             "
             color="primary"
-            label="Continuar"
+            label="Grupo"
           ></q-btn>
-          <q-btn
-            flat
-            color="deep-orange"
-            @click="$refs.stepper.previous()"
-            label="Atrás"
-            class="q-ml-sm"
-          />
-          <q-btn v-if="isEdit" color="secondary" label="Modificar" @click="editContract" class="q-ml-sm"></q-btn>
+          
+          <q-btn v-if="isEdit=true" color="secondary" label="Modificar" @click="editContract" class="q-ml-sm"></q-btn>
         </q-stepper-navigation>
       </q-step>
 
       <q-step :name="3" title="Beneficiarios" icon="people">
         Por el momento no es posible asignar beneficiarios, sintonizanos
-        próximamente para más avances
+        próximamente para más avances...
+
+        <div style="min-width: 400px; max-width: 1200px; padding: 0 20px; ">
+          <q-table
+            title="Beneficiarios"
+            rows-per-page-label="Items"
+            separator="cell"
+            :data="dataTable"
+            :columns="columns"
+            :visible-columns="viewColumns"
+            row-key="dataTable.id"
+            :rows-per-page-options="pagination"
+            :loading="loadingTable"
+          >
+            <template v-slot:top-right v-if="!isMobile">
+              <q-btn
+                icon="add"
+                label="Agregar Nuevo"
+                color="primary"
+                @click="addItem"
+              />
+            </template>
+            <template v-slot:header-cell-actions="props">
+              <q-th :props="props">
+                <q-icon name="view_headline" size="1.5em" />
+                {{ props.col.label }}
+              </q-th>
+            </template>
+            <template v-slot:body-cell-actions="props">
+              <q-td :props="props" style="width: 50px;">
+                <q-btn
+                  dense
+                  round
+                  flat
+                  color="positive"
+                  @click="editItem(props)"
+                  icon="edit"
+                ></q-btn>
+              </q-td>
+            </template>
+            <template v-slot:body-cell-estado="props">
+              <q-td :props="props">
+                {{ props.row.estado | FilterState }}
+              </q-td>
+            </template>
+            <template v-slot:no-data>
+              <div class="full-width row flex-center q-gutter-sm">
+                <span> No hay datos . . . crea el primer registro! </span>
+              </div>
+            </template>
+          </q-table>
+        </div>
+
+         <div
+      class="column items-center"
+      style="padding-bottom: 0px;"
+      v-if="isMobile"
+    >
+      <q-page-sticky position="bottom-left" :offset="[18, 50]">
+        <q-btn fab icon="add" color="primary" @click="addItem" />
+      </q-page-sticky>
+    </div>
 
         <q-stepper-navigation>
-          <q-btn
+         <!-- <q-btn
             @click="saveContract"
             color="primary"
-            label="Guardar Contrato"
+            label="Guardar Contrato 1"
             :disable="disabled"
             :loading="loading"
-          ></q-btn>
+          ></q-btn>-->
           <q-btn
             flat
             color="deep-orange"
@@ -514,6 +586,8 @@ import { Plans } from "src/services/http/plans";
 import { Contract } from "src/services/http/contract";
 import NotifyDialog from "src/services/notify";
 import moment from "moment";
+import ModalPeople from "./ModalPeople";
+
 
 export default {
   name: "contract",
@@ -581,16 +655,123 @@ export default {
       selRules: [v => !!v || "Debe seleccionar una opción"],
       titular: {
         departamento: {},
-        municipio: null
+        municipio: {}
       },
       contrato: {
         formapago: {},
         plan: {},
-        zona: null,
-        sucursal: null,
+        zona: {},
+        sucursal: {},
         cobrador: {},
         vendedor: {}
-      }
+      },
+      employeeType: "BENEFICIARIO",
+      loadingTable: false,
+      pagination: [5, 10, 0],
+      viewColumns: [
+        "actions",
+        "idPersona",
+        "nombre1",
+        "nombre2",
+        "apellido1",
+        "apellido2",
+        "telefono",
+        "celular",
+        "edad",
+        "parentesco",
+        "estado"
+      ],
+      columns: [
+        {
+          name: "actions",
+          label: "",
+          field: "",
+          align: "center",
+          icon: "delete"
+        },
+        {
+          name: "idPersona",
+          required: false,
+          label: "Identificacion",
+          field: "idPersona",
+          sortable: false
+        },
+        {
+          name: "nombre1",
+          required: false,
+          label: "Primer Nombre",
+          field: "nombre1",
+          sortable: true,
+          align: "left"
+        },
+        {
+          name: "nombre2",
+          required: false,
+          label: "Segundo Nombre",
+          field: "nombre2",
+          sortable: true,
+          align: "left"
+        },
+        {
+          name: "apellido1",
+          required: false,
+          label: "Primer Apellido",
+          field: "apellido1",
+          sortable: true,
+          align: "left"
+        },
+        {
+          name: "apellido2",
+          required: false,
+          label: "Segundo Apellido",
+          field: "apellido2",
+          sortable: true,
+          align: "left"
+        },
+        {
+          name: "telefono",
+          required: false,
+          label: "Teléfono",
+          field: "telefono",
+          sortable: true,
+          align: "left"
+        },
+        {
+          name: "celular",
+          required: false,
+          label: "Celular",
+          field: "celular",
+          sortable: true,
+          align: "left"
+        },
+        {
+          name: "edad",
+          required: false,
+          label: "Edad",
+          field: "edad",
+          sortable: true,
+          align: "left"
+        },
+        {
+          name: "parentesco",
+          required: false,
+          label: "Parentesco",
+          field: "parentesco",
+          sortable: true,
+          align: "left"
+        },
+        {
+          name: "estado",
+          required: false,
+          label: "Estado",
+          field: "estado",
+          sortable: true,
+          align: "left"
+        }
+      ],
+      dataTable: [],
+      fabAction: false,
+      employeeId: 0
     };
   },
 
@@ -613,19 +794,23 @@ export default {
         cancel: { push: true, color: 'secondary' },
         persistent: true
       }).onOk(() => {
-        this.titular = { departamento: {}, municipio: null };
-        this.contrato = { formapago: {}, plan: {}, zona: null, sucursal: null, cobrador: {}, vendedor: {} }
-
+        this.titular = { departamento: {}, municipio: {} };
+        this.contrato = { formapago: {}, plan: {}, zona: {}, sucursal: {}, cobrador: {}, vendedor: {} }
+        console.log('ref #x',this.$refs.form_contrato)
         if (this.$refs.form_contrato !== undefined) {
           console.log('ref #1')
           this.$refs.form_contrato.reset();
         }
+        console.log('ref #xx',this.$refs.form_titular)
         if (this.$refs.form_titular !== undefined) {
           console.log('ref #2')
           this.$refs.form_titular.reset();
         }
-
-        if (this.$route.query.idcontract !== undefined) this.$router.push(this.$route.path);
+      console.log('ref #xxx',this.$route.query.idcontract,this.$route.path)
+        if (this.$route.query.idcontract !== undefined) {
+          console.log('ref #3')
+          this.$router.push(this.$route.path);
+        }
       }).onCancel(() => {
         // console.log('>>>> Cancel')
       }).onDismiss(() => {
@@ -787,8 +972,75 @@ export default {
 
       this.loading = false;
       this.disabled = false;
+    },
+    //***************beneficiarios  */
+      editItem(props) {
+      this.fabAction = false;
+      this.saveOrEditItem(props.row);
+    },
+    addItem() {
+      this.fabAction = true;
+      this.saveOrEditItem("");
+    },
+    saveOrEditItem(valueItem) {
+      this.employeeId = valueItem.idPersona;
+
+      this.$q
+        .dialog({
+          component: ModalPeople,
+          data: this.fabAction ? {} : valueItem,
+          parent: this,
+          textAction: this.fabAction ? "Guardar" : "Modificar"
+        })
+        .onOk(value => {
+          if (this.fabAction) {
+            this.addRegister(value);
+          } else {
+            this.editRegister(value);
+          }
+        })
+        .onCancel(() => {
+          // console.log("Cancel");
+        })
+        .onDismiss(() => {
+          // console.log("Called on OK or Cancel");
+        });
+    },
+    async addRegister(dataValue) {
+
+      await Employees.create(dataValue).then((response) => {
+        console.log(response)
+        if (response?.status === 200) {
+          NotifyDialog.triggerPositive("Registro almacenado correctamente");
+            this.loadData();
+        } else {
+          NotifyDialog.triggerNegative("El registro no pudo ser almacenado");
+        }
+      })
+    },
+    async editRegister(dataValue) {
+      
+      await Employees.edit(this.employeeId, dataValue).then((response) => {
+        console.log(response)
+        if (response?.status === 200) {
+          NotifyDialog.triggerPositive("Registro modificado correctamente");
+          this.loadData();
+        } else {
+          NotifyDialog.triggerNegative("El registro no pudo ser modificado");
+        }
+      })
+
     }
+
+    //************ fin beneficiarios */
   },
+  computed: {
+    isMobile: {
+      get() {
+        return this.$store.state.platform_mobile.isMobile;
+      }
+    }
+  }
 };
 </script>
 
