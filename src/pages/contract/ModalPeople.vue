@@ -7,17 +7,16 @@
           <q-input
             type="text"
             filled
-            v-model="dataEmployee.idPersona"
-            label="Identificacion *"
+            v-model="dataEmployee.identificacion"
+            label="Identificacion"
             lazy-rules
-            :rules="textRules"
             counter
           />
           <q-input
             type="text"
             filled
             v-model="dataEmployee.nombre1"
-            label="Primer Nombre *"
+            label="* Primer Nombre "
             lazy-rules
             :rules="textRules"
             counter
@@ -33,7 +32,7 @@
             type="text"
             filled
             v-model="dataEmployee.apellido1"
-            label="Primer Apellido *"
+            label="* Primer Apellido "
             lazy-rules
             :rules="textRules"
             counter
@@ -56,9 +55,9 @@
             type="text"
             filled
             v-model="dataEmployee.celular"
-            label="Celular *"
+            label="Celular "
             lazy-rules
-            :rules="textRules"
+            
             counter
           />
           
@@ -94,14 +93,47 @@
                   </q-icon>
                 </template>
               </q-input>
+              <br>
+               <q-input
+                filled
+                v-model="fechaAfiliacion"
+                mask="date"
+                label="Fecha Afiliación"
+                clearable
+              >
+                <template v-slot:append>
+                  <q-icon name="event" class="cursor-pointer">
+                    <q-popup-proxy
+                      ref="qDateProxy"
+                      transition-show="scale"
+                      transition-hide="scale"
+                    >
+                      <q-date
+                        v-model="fechaAfiliacion"
+                        :options="optionDatePicker"
+                        mask="YYYY-MM-DD"
+                      >
+                        <div class="row items-center justify-end">
+                          <q-btn
+                            v-close-popup
+                            label="Cerrar"
+                            color="primary"
+                            flat
+                          />
+                        </div>
+                      </q-date>
+                    </q-popup-proxy>
+                  </q-icon>
+                </template>
+              </q-input>
 <br>
           <q-select
             filled
-            v-model="dataEmployee.parentesco"
+            v-model="dataEmployee.idParentesco"
             :options="parentescos"
             option-value="idParentesco"
             option-label="parentesco"
-            label="*Parentesco"
+            label="* Parentesco"
               emit-value
                 map-options
             :rules="selRules"
@@ -111,13 +143,12 @@
             filled
             v-model="dataEmployee.genero"
             :options="optGenero"
-            label="Genero"
+            label="* Genero"
             :rules="selRules"
           />
           <q-input
                 filled
                 v-model="dataEmployee.fechaCobertura"
-                mask="date"
                 label="Fecha Cobertura"
                 clearable
               >
@@ -147,10 +178,11 @@
                 </template>
               </q-input>
               <br>
-<q-input
+            <q-input
+                v-if="isEditBenefi && estadoFallecido==='Si'"
                 filled
                 v-model="dataEmployee.fechafallecido"
-                mask="date"
+               
                 label="Fecha Fallecido"
                 clearable
               >
@@ -180,11 +212,11 @@
                 </template>
               </q-input>
 <br>
-<q-input
+              <q-input
+              v-if="isEditBenefi && estadoText==='Retirado'"
                 filled
                 v-model="dataEmployee.fecharetirado"
-                mask="date"
-                label="Fecha Retirado"
+                 label="Fecha Retirado"
                 clearable
               >
                 <template v-slot:append>
@@ -212,39 +244,52 @@
                   </q-icon>
                 </template>
               </q-input>
+
+        <br>
+          <q-input
+            
+            filled
+            v-model="dataEmployee.valoradicional"
+            label="Valor Adicional"
+            counter
+            type="number"
+            v-if="estadoAdicional==='Si'"
+          />
 <br>
           <q-input
             type="text"
             filled
-            v-model="dataEmployee.telefono"
+            v-model="dataEmployee.observaciones"
             label="Observaciones"
             counter
           />
 
          
           <q-toggle
-           
-            v-model="estado"
+           v-if="isEditBenefi"
+            v-model="retirado"
             checked-icon="check"
             color="red"
             unchecked-icon="clear"
-            :value="estado"
-            :label="`Estado del beneficiario ${estadoText}`"
+            :value="retirado"
+            :label="`Estado  ${estadoText}`"
           />
           <q-toggle
-            v-model="estadoA"
+            v-model="adicional"
             checked-icon="check"
             color="red"
             unchecked-icon="clear"
-            :value="estadoA"
+            :value="adicional"
             :label="`Adicional ${estadoAdicional}`"
           />
+         
           <q-toggle
-            v-model="estadoF"
+            v-if="isEditBenefi"
+            v-model="fallecido"
             checked-icon="check"
             color="red"
             unchecked-icon="clear"
-            :value="estadoF"
+            :value="fallecido"
             :label="`Fallecido ${estadoFallecido}`"
           />
         </q-form>
@@ -267,18 +312,20 @@ export default {
   data() {
     return {
       name: "",
-      estado: true,
-      estadoA: false,
-      estadoF: false,
+      isEditBenefi: false,
+      retirado: false,
+      adicional: false,
+      fallecido: false,
       estadoText: "Activo",
       estadoFallecido: "No",
       estadoAdicional: "No",
+      fechaAfiliacion : moment().format("YYYY/MM/DD").toString(),
       textRules: [
         val => (val && val.length > 0) || "Campo Obligatorio (*)",
         val => val.length <= 20 || "Máximo 20 carácteres"
       ],
       selRules: [val => !!val || "Campo Obligatorio"],
-      optGenero: ["Masculino", "Femenino"],
+      optGenero: ["MASCULINO", "FEMENINO","OTRO"],
       dataEmployee: {
         parentesco: {},
 
@@ -297,32 +344,71 @@ export default {
       required: true
     }
   },
+  mounted() {
+     if (this.data.identificacion  !== undefined){
+      this.isEditBenefi = true;
+      console.log("lleno",this.isEditBenefi)
+    }else{
+      this.isEditBenefi = false;
+      console.log("vacio",this.isEditBenefi)
+
+    }
+  },
 
   created() {
     this.loadData();
     this.dataEmployee = this.data;
-    this.estado =
-      this.dataEmployee.estado !== undefined
-        ? this.dataEmployee.estado == 0
-          ? true
-          : false
-        : true;
+    this.fechaAfiliacion = moment().format("YYYY/MM/DD").toString();
+    console.log("retirado",this.dataEmployee.retirado );
+    console.log("fallecido",this.dataEmployee.fallecido );
+    console.log("adicional",this.dataEmployee.adicional );
+   
 
-        this.estadoF =
-      this.dataEmployee.estadoF !== undefined
-        ? this.dataEmployee.estadoF == 0
-          ? true
-          : false
-        : false;
-    console.log("el estado Fallecido es",this.estadoF);
+    console.log("la identificacion ",this.dataEmployee.identificacion );
 
-    this.estadoA =
-      this.dataEmployee.estadoA !== undefined
-        ? this.dataEmployee.estadoA == 0
-          ? true
-          : false
-        : false;
-    console.log("el estado adicional es",this.estadoA);
+    this.fechaAfiliacion = this.format_date(this.dataEmployee.fechaAfiliacion);
+
+    if (this.dataEmployee.fechaNacimiento != null && this.dataEmployee.fechaNacimiento != "1999-01-01") {
+      this.dataEmployee.fechaNacimiento = this.format_date(this.dataEmployee.fechaNacimiento);
+    } else {
+      this.dataEmployee.fechaNacimiento = "";
+    }
+ 
+    if (this.dataEmployee.fechafallecido != null) {
+      this.dataEmployee.fechafallecido = this.format_date(this.dataEmployee.fechafallecido);
+    } else {
+      this.dataEmployee.fechafallecido = "";
+    }
+
+    if (this.dataEmployee.fecharetirado  != null) {
+       this.dataEmployee.fecharetirado = this.format_date(this.dataEmployee.fecharetirado);
+    } else {
+       this.dataEmployee.fecharetirado  = "";
+    }
+    
+   
+    this.dataEmployee.fechaCobertura = this.format_date(this.dataEmployee.fechaCobertura);
+    if(this.dataEmployee.retirado == 1){
+       this.retirado = false;
+    }else{
+     this.retirado = true;
+    }
+    
+    if(this.dataEmployee.fallecido == 1 ){
+      this.fallecido = true;
+    }else{
+      this.fallecido = false;
+    }
+      
+    if(this.dataEmployee.adicional == 1){
+      this.adicional = true;
+    }else{
+      this.adicional = false;
+    }
+    console.log("el estado  es",this.retirado);
+    console.log("el estado adicional es",this.adicional);
+
+     console.log("el data es ", this.dataEmployee );
   },
 
   methods: {
@@ -332,6 +418,9 @@ export default {
     },
     hide() {
       this.$refs.dialog.hide();
+    },
+    format_date(value) {
+      return moment(value).format("YYYY-MM-DD");
     },
     optionDatePicker(date) {
       return (
@@ -349,6 +438,33 @@ export default {
     onOKClick() {
       this.$refs.form_modal.validate().then(success => {
         if (success) {
+          this.dataEmployee.fechaAfiliacion=  this.format_date(this.fechaAfiliacion );
+
+        if (this.dataEmployee.fechaNacimiento != "") {
+          this.dataEmployee.fechaNacimiento = this.format_date(this.dataEmployee.fechaNacimiento);
+        } else {
+          this.dataEmployee.fechaNacimiento = "1999-01-01";
+        }
+
+        if (this.dataEmployee.fechafallecido != "") {
+          this.dataEmployee.fechafallecido = this.format_date(this.dataEmployee.fechafallecido);
+        } else {
+          this.dataEmployee.fechafallecido = "1999-01-01";
+        }
+
+        if (this.dataEmployee.fecharetirado  != "") {
+          this.dataEmployee.fecharetirado = this.format_date(this.dataEmployee.fecharetirado);
+        } else {
+          this.dataEmployee.fecharetirado  = "1999-01-01";
+        }
+    
+
+          if (this.retirado == 1){
+            this.dataEmployee.retirado =  0 ;
+          }else{
+              this.dataEmployee.retirado =  1 ;
+          }
+           
           this.$emit("ok", this.dataEmployee);
           this.hide();
         }
@@ -391,14 +507,14 @@ export default {
   
 
   watch: {
-    estado() {
-      this.estadoText = this.estado ? "Activo" : "Retirado";
+    retirado() {
+      this.estadoText = this.retirado ? "Activo" : "Retirado";
     },
-    estadoF() {
-      this.estadoFallecido = this.estadoF ? "Si" : "No";
+    fallecido() {
+      this.estadoFallecido = this.fallecido ? "Si" : "No";
     },
-    estadoA() {
-      this.estadoAdicional = this.estadoA ? "Si" : "No";
+    adicional() {
+      this.estadoAdicional = this.adicional ? "Si" : "No";
     }
   }
 };

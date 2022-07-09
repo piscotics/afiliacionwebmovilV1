@@ -1,17 +1,17 @@
 {
     "android": {
         "debug": {
-            "keystore": "/media/devfko/Documentos/keys-android/keys.jks",
-            "storePassword": "devfko",
-            "alias": "devfko",
-            "password" : "devfko",
+            "keystore": "/PiscoCodes/PiscoTics.jks",
+            "storePassword": "PiscoTics",
+            "alias": "PiscoTics",
+            "password" : "PiscoTics",
             "keystoreType": "jks"
         },
         "release": {
-            "keystore": "/media/devfko/Documentos/keys-android/keys.jks",
-            "storePassword": "devfko",
-            "alias": "devfko",
-            "password" : "devfko",
+            "keystore": "/PiscoCodes/PiscoTics.jks",
+            "storePassword": "PiscoTics",
+            "alias": "PiscoTics",
+            "password" : "PiscoTics",
             "keystoreType": "jks"
         }
     }

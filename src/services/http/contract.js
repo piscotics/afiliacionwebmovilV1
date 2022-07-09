@@ -3,16 +3,47 @@ import endpoint from "../endpoints";
 import { LocalStorage } from 'quasar'
 import moment from "moment";
 
-let localStorage = LocalStorage.getItem("pisco-afilweb");
+let localStorage ;
 
 export const Contract =  {
-    get: async(numContract) => {
+
+      list: async(criterio,tipoBusqueda) => {
+        localStorage = LocalStorage.getItem("pisco-afilweb");
+
+        let headers = {
+            "Content-Type": "application/json"
+        };
+       
+
+        let params = {
+          criterio: criterio,
+          tipoBusqueda: tipoBusqueda,
+          subdominio: localStorage.subdomain
+        };
+
+        return await api
+            .get(endpoint.apiContrato+ "list", { params, headers })
+            .then((response) => {
+                console.log("los contrtos son", response)
+                return response
+            })
+            .catch ((err) => {
+                return err.response
+            })
+    },
+
+    get: async(numContract,tipoBusqueda) => {
+
+      localStorage = LocalStorage.getItem("pisco-afilweb");
+
         let headers = {
             "Content-Type": "application/json"
         };
 
+        console.log("el dominio es", localStorage.subdomain)
         let params = {
             idContrato: numContract,
+            tipoBusqueda: tipoBusqueda,
             subdominio: localStorage.subdomain
         };
 
@@ -27,6 +58,8 @@ export const Contract =  {
     },
     create: async(titular, contrato) => {
 
+      localStorage = LocalStorage.getItem("pisco-afilweb");
+
       const headers = {
         "Content-Type": "application/json"
       };
@@ -35,7 +68,7 @@ export const Contract =  {
         titular: {
           identificacion: titular.identificacion,
           nombre1: titular.nombre1,
-          nombre2: titular.nombre1 || "",
+          nombre2: titular.nombre2 || "",
           apellido1: titular.apellido1,
           apellido2: titular.apellido2 || "",
           departamento: {
@@ -44,15 +77,15 @@ export const Contract =  {
           municipio: {
             idMunicipio: titular.municipio.idMunicipio
           },
-          direccion: titular.direccion,
-          barrio: titular.barrio,
-          telefono: titular.telefono,
+          direccion: titular.direccion || "",
+          barrio: titular.barrio || "",
+          telefono: titular.telefono || "",
           celular1: titular.celular1,
           celular2: titular.celular2 || "",
           email: titular.email,
-          fechanacimiento: moment(titular.fechaNacimiento,"YYYY-MM-DD"),
-          genero: titular.genero.substring(0, 1),
-          fechacobertura:  moment(titular.fechaCobertura,"YYYY-MM-DD"),
+          fechanacimiento: moment(titular.fechaNacimiento,"YYYY-MM-DD") ,
+          genero: titular.genero,
+          fechacobertura:  moment("1999-01-01","YYYY-MM-DD"),
           fechaafiliacion: contrato.fechaAfiliacion
         },
         tipoafiliacion: contrato.tipoAfiliacion,
@@ -79,8 +112,11 @@ export const Contract =  {
         vendedor: {
           idPersona: contrato.vendedor.idPersona
         },
-        direccionCobro: contrato.direccionCobro,
+        direccionCobro: contrato.direccionCobro || "",
         observaciones: contrato.observaciones || "",
+        empresas: {
+          nitEmpresa: contrato.empresas.nitEmpresa || "",
+        },
         subdominio: localStorage.subdomain
       };
         
@@ -96,6 +132,8 @@ export const Contract =  {
         })
     },
     edit: async(titular, contrato) => {
+
+      localStorage = LocalStorage.getItem("pisco-afilweb");
 
       let headers = {
         "Content-Type": "application/json"
@@ -131,8 +169,11 @@ export const Contract =  {
         vendedor: {
           idPersona: contrato.vendedor.idPersona
         },
-        direccionCobro: contrato.direccionCobro,
+        direccionCobro: contrato.direccionCobro  ,
         observaciones: contrato.observaciones || "",
+        empresas: {
+          nitEmpresa: contrato.empresas.nitEmpresa || "",
+        },
         subdominio: localStorage.subdomain
       };
 

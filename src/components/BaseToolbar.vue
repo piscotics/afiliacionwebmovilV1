@@ -1,5 +1,6 @@
 <template>
   <q-toolbar>
+    
     <q-btn
       flat
       dense
@@ -10,8 +11,16 @@
       v-if="isAuthenticated && isMobile"
     />
 
-    <q-toolbar-title :class="{ 'text-center': !isAuthenticated }">
-      Afiliación Web
+    <q-toolbar-title :class="{ 'text-center': !isAuthenticated }" v-if="!isAuthenticated">
+      Pisco Web Afiliación 
+    </q-toolbar-title>
+
+    <q-toolbar-title :class="{ 'text-left': isAuthenticated }" v-if="isAuthenticated && !isMobile">
+      Bienvenido  {{ user_logged.nombre }} {{ user_logged.apellido }}
+    </q-toolbar-title>
+
+    <q-toolbar-title :class="{ 'text-center': !isAuthenticated }" v-if="isAuthenticated && isMobile">
+      Bienvenido 
     </q-toolbar-title>
 
     <q-btn
@@ -19,10 +28,19 @@
       icon="search"
       v-if="isAuthenticated"
       to="/search"
+       size="18px" 
+    />
+
+    <q-btn
+      flat
+      icon="verified"
+      v-if="isAuthenticated"
+      to="/verified"
+       size="18px" 
     />
       <!-- @click.prevent="openSearch" -->
 
-    <q-btn flat icon="settings" v-if="isAuthenticated && !isMobile">
+    <q-btn flat icon="description"   size="18px"  v-if="isAuthenticated && !isMobile">
       <q-menu fit anchor="bottom left" self="top left" max-height="70vh">
         <BaseMenu
           v-for="item in linksData"
@@ -35,7 +53,21 @@
       </q-menu>
     </q-btn>
 
-    <q-avatar rounded size="32px" v-if="isAuthenticated">
+    <q-btn flat icon="settings"  size="18px" v-if="isAuthenticated && !isMobile">
+    
+      <q-menu fit anchor="bottom left" self="top left" max-height="70vh">
+        <BaseMenu
+          v-for="item in linksDataConfig"
+          :key="item.title"
+          :title="item.title"
+          :caption="item.caption"
+          :link="item.link"
+          :icon="item.icon"
+        />
+      </q-menu>
+    </q-btn>
+
+    <q-avatar rounded size="42px" v-if="isAuthenticated">
       <img src="@/assets/user.png" alt="avatar" />
       <q-menu>
         <div class="column q-pa-md" style="width: 200px;">
@@ -65,18 +97,21 @@
 
 <script>
 import linksMenu from "src/services/menu";
+import linksMenuConfig from "src/services/menuconfig";
 import ModalSearch from "src/pages/search/Index.vue";
 
 export default {
   name: "BaseToolbar",
   data() {
     return {
-      linksData: []
+      linksData: [],
+      linksDataConfig: []
     };
   },
 
   mounted() {
     this.linksData = linksMenu;
+    this.linksDataConfig = linksMenuConfig;
   },
 
   methods: {

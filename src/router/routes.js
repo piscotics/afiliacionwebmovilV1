@@ -15,6 +15,13 @@ const routes = [
       { path: '/employees', component: () => import('pages/params/employees/Index.vue'), meta: { requiresAuth: true } },
       { path: '/contract', name: 'contract', component: () => import('pages/contract/Index.vue'), meta: { requiresAuth: true } },
       { path: '/search', component: () => import('pages/search/Index.vue'), meta: { requiresAuth: true } },
+      { path: '/verified', component: () => import('pages/verified/Index.vue'), meta: { requiresAuth: true } },
+      { path: '/redirect', component: () => import('pages/verified/redirect.vue'), meta: { requiresAuth: true } },
+      { path: '/multifiltro', component: () => import('pages/multifiltro/Index.vue'), meta: { requiresAuth: true } },
+      { path: '/payments', component: () => import('pages/payments/Index.vue'), meta: { requiresAuth: true } },
+      { path: '/noveltycontract', component: () => import('pages/params/noveltycontract/Index.vue'), meta: { requiresAuth: true } },
+      { path: '/contractadicional', component: () => import('pages/params/contractadicional/Index.vue'), meta: { requiresAuth: true } },
+      
     ]
   },
 

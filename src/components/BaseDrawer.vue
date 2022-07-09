@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import linksMenu from "src/services/menu";
+import linksMenuMovil from "src/services/menumovil";
 
 export default {
   name: "BaseDrawer",
@@ -45,13 +45,17 @@ export default {
 
   methods: {
     logout() {
+     
+       
+        this.$q.localStorage.remove("contratoTitular");
+        this.$q.localStorage.remove("identificacionTitular");
       this.$store.commit("user_authenticated/setAuthenticated", false);
       this.$router.push({ path: "/" });
     }
   },
 
   mounted() {
-    this.linksData = linksMenu;
+    this.linksData = linksMenuMovil;
   },
 
   computed: {
@@ -60,6 +64,7 @@ export default {
         return this.$store.state.user_authenticated.isAuthenticated;
       },
       set(val) {
+       
         this.$store.commit("user_authenticated/setAuthenticated", val);
       }
     }

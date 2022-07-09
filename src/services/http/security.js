@@ -2,7 +2,8 @@ import api from '../api';
 import endpoint from "../endpoints";
 import { LocalStorage } from 'quasar'
 
-let localStorage = LocalStorage.getItem("pisco-afilweb");
+
+let localStorage ;
 
 export const Security =  {
     login: async(credentials) => {
@@ -11,12 +12,16 @@ export const Security =  {
           "Content-Type": "application/json"
         };
 
+        localStorage = LocalStorage.getItem("pisco-afilweb");
+        console.log("el inice  es", LocalStorage.getItem("pisco-afilweb"))
+        console.log("el dominio es", localStorage.subdomain)
+
         let data = {
           username: credentials.username,
           password: credentials.password,
           subdominio: localStorage.subdomain
         };
-
+        console.log("api",api.baseURL)
         return await api
             .post(endpoint.apiLogin, data, { headers })
             .then((response) => {
@@ -28,7 +33,7 @@ export const Security =  {
             })
     },
     business: async() => {
-
+        localStorage = LocalStorage.getItem("pisco-afilweb");
         let headers = {
             "Content-Type": "application/json"
         };

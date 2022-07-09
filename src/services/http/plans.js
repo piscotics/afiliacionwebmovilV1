@@ -70,5 +70,24 @@ export const Plans =  {
         })
 
     
-    }
+    },
+    get: async(id) => {
+        const headers = {
+            "Content-Type": "application/json"
+        };
+    
+        let params = {
+            id: id,
+            subdominio: localStorage.subdomain
+        };
+    
+        return await api
+            .get(endpoint.apiPlan + "get/", {params, headers})
+            .then((response) => {
+                return response
+            })
+            .catch ((err) => {
+                return err.response
+            })
+    },
 }

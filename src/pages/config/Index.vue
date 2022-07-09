@@ -50,8 +50,9 @@ import axios from "axios";
 export default {
   data() {
     return {
-      server: "http://192.99.247.180:5100",
-      subdomain: "prueba.afiliacionweb.com",
+      
+      server: "",
+      subdomain: "",
       configRules: [val => (val && val.length > 0) || "Campo Obligatorio (*)"]
     };
   },

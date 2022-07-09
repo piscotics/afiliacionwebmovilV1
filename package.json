@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "Aplicación de afiliación web",
   "productName": "PiscoAfiliacionWeb",
-  "author": "@devfko <ipe1991@hotmail.com>",
+  "author": "@amescobar <alex.escobar104@hotmail.com>",
   "private": true,
   "scripts": {
     "lint": "eslint --ext .js,.vue ./",

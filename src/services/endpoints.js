@@ -11,7 +11,16 @@ const endpoints = {
     apiMunicipio: '/api/city/',
     apiFormaPago: '/api/paymentmethod/',
     apiContrato: '/api/contract/',
+    apiMultifiltro: '/api/multifiltro/',
     apiBusqueda: '/api/search/',
+    apiTipoPago: '/api/paymenttype/',
+    apiPagos: '/api/payment/',
+    apiCaja: '/api/cash/',
+    apiEmpresas: '/api/empresas/',
+    apiNoveltycontract: '/api/noveltycontract/',
+    apiNovelty: '/api/novelty/',
+    apiContractServicios: '/api/contractadicional/',
+    apiServiceadicional: '/api/serviceadicional/',
 }
 
 export default endpoints;

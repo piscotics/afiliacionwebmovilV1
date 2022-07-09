@@ -55,12 +55,13 @@ import api from "src/services/api";
 import { Security } from "src/services/http/security";
 //import endpoint from "src/services/endpoints";
 import NotifyDialog from "src/services/notify";
-
+import axios from "axios";
 export default {
   name: "login",
 
   data() {
     return {
+      URLactual :"",
       url: "@/assets/img/pisco_logo.png",
       btnLogin: true,
       username: "devfko",
@@ -69,24 +70,98 @@ export default {
     };
   },
 
-  beforeMount() {
-    this.loadDataConfig();
 
-    // Se establece la URL de la configuración, para evitar
-    // que tenga que cerrar la App y volver a ingresar
-    let value = this.$q.localStorage.getItem("pisco-afilweb");
-    if (value != null) {
-      api.baseURL = value.server;
-    }
+  beforeMount() {
+      
+
+    this.loadDataConfig();
+    var URLactual = window.location;
+     //alert(URLactual);
+    let value;
+      if(this.isMobile){
+      // Se establece la URL de la configuración, para evitar
+      // que tenga que cerrar la App y volver a ingresar
+        value = this.$q.localStorage.getItem("pisco-afilweb");
+        if (value != null) {
+            api.baseURL = value.server;
+             axios.defaults.baseUrl = value.server;
+        }
+      }else{
+        //Guardar la configuración de conexión
+        let dataConfig = {
+           server: "http://" + URLactual.hostname + ":9051",
+           subdomain: URLactual.hostname
+        };
+
+        //probar eliminando local store de pisco-afilweb
+        
+        if(this.$q.localStorage.isEmpty = false){
+          this.$q.localStorage.remove("pisco-afilweb");
+          this.$q.localStorage.set("pisco-afilweb", dataConfig);
+         
+        }else{
+          this.$q.localStorage.set("pisco-afilweb", dataConfig);
+         
+        }
+
+          axios.defaults.baseUrl = this.server;
+        value = this.$q.localStorage.getItem("pisco-afilweb");
+      }
+
+      console.log("axios",  axios.defaults.baseUrl)
+      console.log("api",   api.baseURL)
+      console.log("value",   value)
+    
   },
 
   methods: {
     loadDataConfig() {
-      let value = this.$q.localStorage.getItem("pisco-afilweb");
+
+       
+     localStorage.setItem("identificacionTitular", "") 
+     localStorage.setItem("contratoTitular","")  
+
+      var URLactual = window.location;
+     // alert(URLactual);
+      let value;
+      if(this.isMobile){
+      // Se establece la URL de la configuración, para evitar
+      // que tenga que cerrar la App y volver a ingresar
+        value = this.$q.localStorage.getItem("pisco-afilweb");
+         if (value != null) {
+            api.baseURL = value.server;
+             axios.defaults.baseUrl = value.server;
+        }
+      }else{
+        //Guardar la configuración de conexión
+        let dataConfig = {
+           server: "http://" + URLactual.hostname + ":9051",
+           subdomain: URLactual.hostname
+        };
+
+        //probar eliminando local store de pisco-afilweb
+        
+        if(this.$q.localStorage.isEmpty = false){
+          this.$q.localStorage.remove("pisco-afilweb");
+          this.$q.localStorage.set("pisco-afilweb", dataConfig);
+         
+        }else{
+          this.$q.localStorage.set("pisco-afilweb", dataConfig);
+       
+        }
+
+          axios.defaults.baseUrl = this.server;
+        value = this.$q.localStorage.getItem("pisco-afilweb");
+      }
       if (value == null) {
         // this.triggerNegative("No existen parámeros de conexión configurados");
         this.btnLogin = false;
       }
+
+         console.log("axios",  axios.defaults.baseUrl)
+      console.log("api",   api.baseURL)
+      console.log("value",   value)
+    
     },
     async login() {
       let state = true;
@@ -112,8 +187,9 @@ export default {
             this.isAuthenticated = true;
             this.user_logged = response.data;
             this.$router.push({ path: "/home" });
-
+            localStorage.setItem("UsuarioLogueado",this.username)
             NotifyDialog.triggerPositive(
+             
               `Bienvenido, ${response.data.nombre} ${response.data.apellido}`
             );
           } else {

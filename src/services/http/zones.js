@@ -7,7 +7,10 @@ let localStorage = LocalStorage.getItem("pisco-afilweb");
 export const Zones =  {
     list: async() => {
         let headers = {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
+            "Access-Control-Allow-Headers": "X-Requested-With, content-type, Authorization"
         };
 
         let params = {
@@ -26,7 +29,10 @@ export const Zones =  {
     create: async(value) => {
 
         let headers = {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
+            "Access-Control-Allow-Headers": "X-Requested-With, content-type, Authorization"
         };
 
         let data = {
@@ -46,9 +52,11 @@ export const Zones =  {
     edit: async(id, newData) => {
 
       let headers = {
-        "Content-Type": "application/json"
+        'Content-Type': 'application/json'
       };
 
+
+      
       let data = {
         id: id,
         nombreZona: newData,

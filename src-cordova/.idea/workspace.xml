@@ -23,8 +23,44 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d56cc22a-2048-45de-bbcf-1b3aec6c4992" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.xml" beforeDir="false" afterPath="$PROJECT_DIR$/config.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.quasar/artifacts.json" beforeDir="false" afterPath="$PROJECT_DIR$/../.quasar/artifacts.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.quasar/client-entry.js" beforeDir="false" afterPath="$PROJECT_DIR$/../.quasar/client-entry.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build.cordova.json" beforeDir="false" afterPath="$PROJECT_DIR$/../build.cordova.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../dist/cordova/android/apk/release/app-release.apk" beforeDir="false" afterPath="$PROJECT_DIR$/../dist/cordova/android/apk/release/app-release.apk" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../dist/cordova/android/logs/manifest-merger-release-report.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../dist/cordova/android/logs/manifest-merger-release-report.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../quasar.conf.js" beforeDir="false" afterPath="$PROJECT_DIR$/../quasar.conf.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/fonts/flUhRq6tzZclQEJ-Vdg-IuiaDsNa.woff" beforeDir="false" afterPath="$PROJECT_DIR$/www/fonts/flUhRq6tzZclQEJ-Vdg-IuiaDsNa.woff" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/fonts/flUhRq6tzZclQEJ-Vdg-IuiaDsNcIhQ8tQ.woff2" beforeDir="false" afterPath="$PROJECT_DIR$/www/fonts/flUhRq6tzZclQEJ-Vdg-IuiaDsNcIhQ8tQ.woff2" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/www/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/js/10.js" beforeDir="false" afterPath="$PROJECT_DIR$/www/js/10.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/js/11.js" beforeDir="false" afterPath="$PROJECT_DIR$/www/js/11.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/js/12.js" beforeDir="false" afterPath="$PROJECT_DIR$/www/js/12.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/js/2.js" beforeDir="false" afterPath="$PROJECT_DIR$/www/js/2.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/js/3.js" beforeDir="false" afterPath="$PROJECT_DIR$/www/js/3.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/js/4.js" beforeDir="false" afterPath="$PROJECT_DIR$/www/js/4.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/js/5.js" beforeDir="false" afterPath="$PROJECT_DIR$/www/js/5.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/js/6.js" beforeDir="false" afterPath="$PROJECT_DIR$/www/js/6.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/js/7.js" beforeDir="false" afterPath="$PROJECT_DIR$/www/js/7.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/js/8.js" beforeDir="false" afterPath="$PROJECT_DIR$/www/js/8.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/js/9.js" beforeDir="false" afterPath="$PROJECT_DIR$/www/js/9.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/www/js/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/js/vendor.js" beforeDir="false" afterPath="$PROJECT_DIR$/www/js/vendor.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/components/BaseDrawer.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../src/components/BaseDrawer.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/pages/config/Index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../src/pages/config/Index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/pages/contract/Index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../src/pages/contract/Index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/pages/contract/ModalPeople.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../src/pages/contract/ModalPeople.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/pages/login/Index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../src/pages/login/Index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/pages/payments/payments.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/pages/search/Index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../src/pages/search/Index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/router/routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/router/routes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/services/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/services/api.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/services/endpoints.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/services/endpoints.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/services/http/benefi.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/services/http/benefi.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/services/http/contract.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/services/http/contract.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/services/http/utilities.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/services/http/utilities.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/services/http/zones.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/services/http/zones.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,8 +78,11 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="RunOnceActivity.cidr.known.project.marker" value="true" />
     <property name="android.sdk.path" value="$USER_HOME$/Android/Sdk" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/platforms/android" />
+    <property name="cidr.known.project.marker" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
