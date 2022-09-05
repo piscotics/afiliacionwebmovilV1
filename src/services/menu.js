@@ -13,6 +13,20 @@ const linksMenu = [
         icon: "attach_money",
         link: "/payments"
     },
+    {
+        title: "Novedades",
+        caption: "Ingresar Novedades",
+        icon: "description",
+        link: "/noveltycontract"
+    },
+   
+
+    {
+        title: "Servicios Adicionales",
+        caption: "Servicios Adicionales",
+        icon: "bookmark_add",
+        link: "/contractadicional"
+    },
     
     {
         title: "Multifiltro",

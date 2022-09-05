@@ -3,17 +3,12 @@ import { LocalStorage } from 'quasar'
 
 let value = LocalStorage.getItem("pisco-afilweb");
 
-//http://138.128.244.126:9051
+//http://138.128.244.126:9061
 const api = axios.create({
     
-    baseURL: value !== null ? value.server : 'http://138.128.244.126:9051',
+    baseURL: value !== null ? value.server : '',
     timeout: 8000,
-    headers: {
-        'X-Custom-Header': 'foobar',
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
-        'Access-Control-Allow-Headers': 'X-Requested-With, content-type, Authorization'
-    }
+   
    
 });
 

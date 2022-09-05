@@ -21,6 +21,14 @@ const endpoints = {
     apiNovelty: '/api/novelty/',
     apiContractServicios: '/api/contractadicional/',
     apiServiceadicional: '/api/serviceadicional/',
+    apiTitularesBeneficiarios: '/api/titularesbeneficiarios/',
+    apiSincronizarContratos: '/api/sincronizarcontratos/',
+    apiSincronizarParametros: '/api/sincronizarparametros/',
+    apiSincronizarBeneficiarios: '/api/sincronizarbeneficiarios/',
+    apiSincronizarPagos: '/api/sincronizarpagos/',
+    apiSincronizarRegistros: '/api/sincronizarregistros/',
+    apiSincronizarUsuarios: '/api/sincronizarusuarios/',
+    apiUsuario: '/api/user/',
 }
 
 export default endpoints;

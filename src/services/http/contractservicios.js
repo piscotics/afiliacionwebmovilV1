@@ -3,7 +3,8 @@ import endpoint from "../endpoints";
 import { LocalStorage } from 'quasar'
 import moment from "moment";
 let localStorage = LocalStorage.getItem("pisco-afilweb");
-let localStorageContrato;
+let localStorageTitular ;
+let localStorageContrato ;
 let localStorageUsuarioLogueado;
 export const Contractservicios =  {
     list: async() => {
@@ -11,15 +12,21 @@ export const Contractservicios =  {
             "Content-Type": "application/json"
         };
 
-        localStorageContrato = LocalStorage.getItem("contratoTitular");
+        console.log("llego alistar",localStorageTitular, localStorageContrato)
+
+        localStorageTitular = LocalStorage.getItem("identificacionTitular");
+       localStorageContrato = LocalStorage.getItem("contratoTitular");
+
         let params = {
             subdominio: localStorage.subdomain,
+          //  identificaciontitular: localStorageTitular,
             idcontrato: localStorageContrato
         };
 
         return await api
             .get(endpoint.apiContractServicios + "list/", { params, headers })
             .then((response) => {
+                console.log("los servicios son", response)
                 return response
             })
             .catch ((err) => {
@@ -36,22 +43,19 @@ export const Contractservicios =  {
         localStorageUsuarioLogueado = LocalStorage.getItem("UsuarioLogueado");
 
         let data = {
-            idNovedad: value.idNovedad || 0,
-            idContrato: localStorageContrato,
-            fechanovedad: moment(value.fechanovedad).format() ,
-            postfechadodia: value.postfechadodia || 0,
-            aplicada: value.aplicada || 0,
-            fechan: value.fechan || "1999-01-01",
-            usuario: localStorageUsuarioLogueado || "",
-            idcobrador: value.idcobrador || "",
-            modulo: value.modulo || "",
-            transac: value.transac || 0,
-            fechaprogramada: value.fechaprogramada || "1999-01-01",
-            posicionx: value.posicionx || "",
-            posiciony: value.posiciony || "",
-            titular: value.titular || "",
-            observaciones: value.observaciones || "",
-            idalterna: value.idalterna || 0,
+
+            idca: 0,
+            idcontrato: localStorageContrato,
+            idsadicional: value.idsadicional,
+            servicioadicional: "",
+            valor: value.valor|| 0,
+            usuario: localStorageUsuarioLogueado,
+            fecha: moment(value.fecha).format(),
+            idpersona: value.idpersonaBenefi || "0",
+            valoranterior: value.valoranterior || 0,
+            fecharetiro:  "1999-01-01",
+            idasesor: value.idasesor || "01V",
+            asesor: "",
             subdominio: localStorage.subdomain
         };
 
@@ -64,37 +68,53 @@ export const Contractservicios =  {
                 return err.response
             })
     },
-    edit: async(idNovedadContrato, newData) => {
+    edit: async(idca, newData) => {
 
       let headers = {
         "Content-Type": "application/json"
       };
 
-      console.log("actualizar novedad", idNovedadContrato)
+      console.log("actualizar fecha", newData.fecharetiro)
 
+
+      
         localStorageContrato = LocalStorage.getItem("contratoTitular");
         localStorageUsuarioLogueado = LocalStorage.getItem("UsuarioLogueado");
-
-      let data = {
-        idNovedadContrato: newData.idNovedadContrato,
-        idNovedad: newData.idNovedad || 0,
-        idContrato: localStorageContrato,
-        fechanovedad: moment(newData.fechanovedad).format() ,
-        postfechadodia: newData.postfechadodia || 0,
-        aplicada: newData.aplicada || 0,
-        fechan: newData.fechan || "1999-01-01",
-        usuario: localStorageUsuarioLogueado || "",
-        idcobrador: newData.idcobrador || "",
-        modulo: newData.modulo || "",
-        transac: newData.transac || 0,
-        fechaprogramada: newData.fechaprogramada || "1999-01-01",
-        posicionx: newData.posicionx || "",
-        posiciony: newData.posiciony || "",
-        titular: newData.titular || "",
-        observaciones: newData.observaciones || "",
-        idalterna: newData.idalterna || 0,
-        subdominio: localStorage.subdomain
-      };
+        let data;
+            if(newData.fecharetiro != ""){
+                 data = {
+                    idca: newData.idca,
+                    idcontrato: localStorageContrato,
+                    idsadicional: newData.idsadicional,
+                    servicioadicional: "",
+                    valor: newData.valor|| 0,
+                    usuario: localStorageUsuarioLogueado,
+                    fecha: moment(newData.fecha).format(),
+                    idpersona: newData.idpersonaBenefi || "0",
+                    valoranterior: newData.valoranterior || 0,
+                    fecharetiro: moment(newData.fecharetiro).format() || "1999-01-01",
+                    idasesor: newData.idasesor || "01V",
+                    asesor: "",
+                    subdominio: localStorage.subdomain
+                  };
+            }else{
+                 data = {
+                    idca: newData.idca,
+                    idcontrato: localStorageContrato,
+                    idsadicional: newData.idsadicional,
+                    servicioadicional: "",
+                    valor: newData.valor|| 0,
+                    usuario: localStorageUsuarioLogueado,
+                    fecha: moment(newData.fecha).format(),
+                    idpersona: newData.idpersonaBenefi || "0",
+                    valoranterior: newData.valoranterior || 0,
+                    fecharetiro: "1999-01-01",
+                    idasesor: newData.idasesor || "01V",
+                    asesor: "",
+                    subdominio: localStorage.subdomain
+                  };
+            }
+     
 
       return await api
         .put(endpoint.apiContractServicios + "update/", data, { headers }).then((response) => {
@@ -107,6 +127,8 @@ export const Contractservicios =  {
     
     },
     get: async(idServiciosAdicionales) => {
+console.log("entro aqui al get")
+
         const headers = {
             "Content-Type": "application/json"
         };

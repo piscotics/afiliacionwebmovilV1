@@ -31,13 +31,13 @@
        size="18px" 
     />
 
-    <q-btn
+     <!--<q-btn
       flat
       icon="verified"
       v-if="isAuthenticated"
       to="/verified"
        size="18px" 
-    />
+    />-->
       <!-- @click.prevent="openSearch" -->
 
     <q-btn flat icon="description"   size="18px"  v-if="isAuthenticated && !isMobile">

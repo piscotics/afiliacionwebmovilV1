@@ -12,6 +12,7 @@ const routes = [
       { path: '/offices', component: () => import('pages/params/offices/Index.vue'), meta: { requiresAuth: true } },
       { path: '/kinship', component: () => import('pages/params/Kinship/Index.vue'), meta: { requiresAuth: true } },
       { path: '/plans', component: () => import('pages/params/plans/Index.vue'), meta: { requiresAuth: true } },
+      { path: '/user', component: () => import('pages/params/user/Index.vue'), meta: { requiresAuth: true } },
       { path: '/employees', component: () => import('pages/params/employees/Index.vue'), meta: { requiresAuth: true } },
       { path: '/contract', name: 'contract', component: () => import('pages/contract/Index.vue'), meta: { requiresAuth: true } },
       { path: '/search', component: () => import('pages/search/Index.vue'), meta: { requiresAuth: true } },
@@ -21,7 +22,8 @@ const routes = [
       { path: '/payments', component: () => import('pages/payments/Index.vue'), meta: { requiresAuth: true } },
       { path: '/noveltycontract', component: () => import('pages/params/noveltycontract/Index.vue'), meta: { requiresAuth: true } },
       { path: '/contractadicional', component: () => import('pages/params/contractadicional/Index.vue'), meta: { requiresAuth: true } },
-      
+      { path: '/synchronize', component: () => import('pages/params/synchronize/Index.vue'), meta: { requiresAuth: true } },
+       
     ]
   },
 

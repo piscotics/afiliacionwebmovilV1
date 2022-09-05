@@ -3,7 +3,7 @@
     <div class=" q-pa-md" style="width: 500px;">
       <q-card>
         <q-card-section class="text-center">
-          <q-img src="@/assets/pisco_logo.png" style="width: 250px" />
+          <q-img src="@/assets/pisco_afiliacion.png" style="width: 250px" />
         </q-card-section>
 
         <q-card-section>
@@ -42,6 +42,13 @@
                 class="btn-optional col-6"
                 to="/config"
               />
+              
+             <div   class="ion-text-center" >
+                <a style="color: #fa4343; text-decoration: underline; font-size: small;" href="https://www.piscotics.com/privacy-policy/">
+                    Política de Datos Personales
+                </a>
+                </div>
+
             </div>
           </q-form>
         </q-card-section>
@@ -62,10 +69,10 @@ export default {
   data() {
     return {
       URLactual :"",
-      url: "@/assets/img/pisco_logo.png",
+      url: "@/assets/img/pisco_afiliacion.png",
       btnLogin: true,
-      username: "devfko",
-      password: "12345",
+      username: "",
+      password: "",
       loginRules: [val => (val && val.length > 0) || "Campo Obligatorio (*)"]
     };
   },
@@ -73,23 +80,31 @@ export default {
 
   beforeMount() {
       
+      
 
     this.loadDataConfig();
+    console.log("paso aqui 5")
     var URLactual = window.location;
      //alert(URLactual);
     let value;
       if(this.isMobile){
+        console.log("paso aqui 6")
       // Se establece la URL de la configuración, para evitar
       // que tenga que cerrar la App y volver a ingresar
         value = this.$q.localStorage.getItem("pisco-afilweb");
+
+        console.log("paso aqui",value.server ,value.server)
         if (value != null) {
             api.baseURL = value.server;
              axios.defaults.baseUrl = value.server;
         }
       }else{
+        console.log("paso aqui 7")
         //Guardar la configuración de conexión
         let dataConfig = {
-           server: "http://" + URLactual.hostname + ":9051",
+           
+          //activar estas dos nuevas lineas
+           server: "https://" + URLactual.hostname + ":9061",
            subdomain: URLactual.hostname
         };
 
@@ -116,7 +131,7 @@ export default {
 
   methods: {
     loadDataConfig() {
-
+console.log("paso aqui 1")
        
      localStorage.setItem("identificacionTitular", "") 
      localStorage.setItem("contratoTitular","")  
@@ -125,17 +140,22 @@ export default {
      // alert(URLactual);
       let value;
       if(this.isMobile){
+console.log("paso aqui 2")
       // Se establece la URL de la configuración, para evitar
       // que tenga que cerrar la App y volver a ingresar
         value = this.$q.localStorage.getItem("pisco-afilweb");
+         console.log("paso aqui",value.server ,value.server)
          if (value != null) {
             api.baseURL = value.server;
              axios.defaults.baseUrl = value.server;
         }
       }else{
+        console.log("paso aqui 3")
         //Guardar la configuración de conexión
         let dataConfig = {
-           server: "http://" + URLactual.hostname + ":9051",
+            
+           //activar estas dos lineas
+           server: "https://" + URLactual.hostname + ":9061",
            subdomain: URLactual.hostname
         };
 
@@ -194,7 +214,7 @@ export default {
             );
           } else {
             NotifyDialog.triggerNegative(
-              "Usuario incorrecto, no existe o no está configurado correctamente"
+               "Usuario incorrecto, no existe o no está configurado correctamente"
             );
           }
         })

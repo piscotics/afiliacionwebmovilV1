@@ -18,7 +18,7 @@ export const Empresas =  {
         };
 
         return await api
-            .get(endpoint.apiEmpresas + "list/", { params, headers })
+            .get(endpoint.apiEmpresas + "list/", { params })
             .then((response) => {
                 return response
             })

@@ -14,14 +14,14 @@ export const Security =  {
 
         localStorage = LocalStorage.getItem("pisco-afilweb");
         console.log("el inice  es", LocalStorage.getItem("pisco-afilweb"))
-        console.log("el dominio es", localStorage.subdomain)
+        console.log("el dominio es", localStorage.subdomain,credentials.username,credentials.password)
 
         let data = {
           username: credentials.username,
           password: credentials.password,
           subdominio: localStorage.subdomain
         };
-        console.log("api",api.baseURL)
+        console.log("api",data, localStorage.server)
         return await api
             .post(endpoint.apiLogin, data, { headers })
             .then((response) => {

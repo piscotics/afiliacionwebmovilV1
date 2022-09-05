@@ -18,7 +18,7 @@ export const Zones =  {
         };
 
         return await api
-            .get(endpoint.apiZona + "list/", { params, headers })
+            .get(endpoint.apiZona + "list/", { params })
             .then((response) => {
                 return response
             })
@@ -41,7 +41,7 @@ export const Zones =  {
         };
 
         return await api
-            .post(endpoint.apiZona + "create/", data, { headers })
+            .post(endpoint.apiZona + "create/", data, {  })
             .then((response) => {
                 return response
             })
@@ -51,9 +51,7 @@ export const Zones =  {
     },
     edit: async(id, newData) => {
 
-      let headers = {
-        'Content-Type': 'application/json'
-      };
+     
 
 
       
@@ -63,7 +61,8 @@ export const Zones =  {
         subdominio: localStorage.subdomain
       };
 
-      return await api.put(endpoint.apiZona + "update", data, { headers }).then((response) => {
+      return await api.put(endpoint.apiZona + "update", data, { headers: {"Access-Control-Allow-Origin": "*"} 
+    }).then((response) => {
           return response
         })
         .catch ((err) => {

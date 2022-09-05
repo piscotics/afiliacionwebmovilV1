@@ -79,6 +79,9 @@ export default {
   data() {
     return {
 
+
+ 
+
       
       loadingTable: false,
       pagination: [5, 10, 0],
@@ -88,7 +91,11 @@ export default {
         "valor",
         "idpersona",
         "usuario",
-        "fecha"
+        "fecha",
+        "valoranterior",
+        "fecharetiro",
+        "asesor",
+        "tipocobro"
       ],
       columns: [
         {
@@ -138,7 +145,40 @@ export default {
           field: "fecha",
           sortable: true,
           align: "left"
+        },
+        {
+          name: "valoranterior",
+          required: false,
+          label: "Valor Anterior",
+          field: "valoranterior",
+          sortable: true,
+          align: "left"
+        },
+        {
+          name: "fecharetiro",
+          required: false,
+          label: "Fecha Retiro",
+          field: "fecharetiro",
+          sortable: true,
+          align: "left"
+        },
+         {
+          name: "asesor",
+          required: false,
+          label: "Asesor",
+          field: "asesor",
+          sortable: true,
+          align: "left"
+        },
+         {
+          name: "tipocobro",
+          required: false,
+          label: "Tipo Cobro",
+          field: "tipocobro",
+          sortable: true,
+          align: "left"
         }
+
       ],
       dataTable: [],
       fabAction: false
@@ -159,10 +199,10 @@ export default {
       this.saveOrEditItem("");
     },
     saveOrEditItem(valueItem) {
+      console.log("si llega aqui ")
       this.$q
         .dialog({
           component: ModalContractAdicional,
-
           valueField1: this.fabAction ? 0 : valueItem.idca,
           valueField2: this.fabAction ? "" : valueItem.idcontrato,
           valueField3: this.fabAction ? 0 : valueItem.idsadicional,
@@ -173,6 +213,7 @@ export default {
           valueField8: this.fabAction ? 0 : valueItem.valoranterior,
           valueField9: this.fabAction ? "" : valueItem.fecharetiro,
           valueField10: this.fabAction ? "" : valueItem.idasesor,
+          valueField11: this.fabAction ? "" : valueItem.tipocobro,
           parent: this,
           textAction: this.fabAction ? "Guardar" : "Modificar"
         })
@@ -233,6 +274,23 @@ export default {
                 if (response?.status === 200) {
                   for (let index in response.data) {
                       response.data[index].fecha = moment(response.data[index].fecha).format('YYYY-MMM-DD');
+                      if(response.data[index].idpersona == "0"){
+                        response.data[index].idpersona = "";
+                      }
+                      if(response.data[index].fecharetiro == "1999-01-01T00:00:00"	){
+                         response.data[index].fecharetiro = "";
+                      }
+ 
+     
+                        if(response.data[index].tipocobro == 1){
+                          response.data[index].tipocobro = "Paga Valor Por el Grupo";
+                        }
+                        else if(response.data[index].tipocobro == 2){
+                          response.data[index].tipocobro = "Paga valor por Cada Una de las Personas"
+                        }
+                        else if(response.data[index].tipocobro == 3){
+                         response.data[index].tipocobro = "Paga valor Por una Persona en Especial"
+                        }
                   }
                   this.dataTable = response.data;
                 }

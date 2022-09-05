@@ -12,6 +12,13 @@ const linksMenuMovil = [
         icon: "attach_money",
         link: "/payments"
     },
+
+    {
+        title: "Usuarios",
+        caption: "Crear Usuarios",
+        icon: "people",
+        link: "/user"
+    },
     
     {
         title: "Zonas",
@@ -57,6 +64,14 @@ const linksMenuMovil = [
         icon: "bookmark_add",
         link: "/contractadicional"
     },
+
+    {
+        title: "Sincronizar Datos",
+        caption: "Sincronizar Datos",
+        icon: "sync",
+        link: "/synchronize"
+    },
+
     {
         title: "Multifiltro",
         caption: "Buscar Registros",

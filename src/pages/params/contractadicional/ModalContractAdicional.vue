@@ -4,6 +4,23 @@
       <q-card-section>
         <q-form ref="form_modal">
               
+
+              <q-select
+                filled
+                :value="tipo"
+                v-model="tipo"
+                :options="optTipo"
+                label="* Tipo"
+                :rules="selRules"
+                 @input="
+                  val => {
+                    loadServicio(val);
+                  }
+                "
+              />
+          
+
+
               <q-select
                 filled
                 v-model="idsa"
@@ -68,9 +85,45 @@
               </q-input>
               <br>
 
+              <q-input
+                filled
+                v-model="fecharetiro"
+                 option-value="fecharetiro"
+                label="Fecha Retiro"
+                clearable
+                v-if="textAction=='Modificar'"
+              >
+                <template v-slot:append>
+                  <q-icon name="event" class="cursor-pointer">
+                    <q-popup-proxy
+                      ref="qDateProxy"
+                      transition-show="scale"
+                      transition-hide="scale"
+                    >
+                      <q-date
+                        v-model="fecharetiro"
+                         option-value="fecharetiro"
+                        :options="optionDatePicker"
+                        mask="YYYY-MM-DD"
+                      >
+                        <div class="row items-center justify-end">
+                          <q-btn
+                            v-close-popup
+                            label="Cerrar"
+                            color="primary"
+                            flat
+                          />
+                        </div>
+                      </q-date>
+                    </q-popup-proxy>
+                  </q-icon>
+                </template>
+              </q-input>
+              <br>
+
                <q-select
                 filled
-                v-model="contrato.vendedor.idPersona"
+                v-model="idasesor"
                 :options="vendedores"
                 label="* Vendedor"
                 option-value="idPersona"
@@ -78,6 +131,18 @@
                 emit-value
                 map-options
                 :rules="selRules"
+              />
+
+              <q-select
+                filled
+                v-model="idpersonaBenefi"
+                :options="titularesBenefi"
+                label="Beneficiario"
+                option-value="identificacion"
+                :option-label="item => `${item.nombre1} ${item.nombre2} ${item.apellido1} ${item.apellido2}`"
+                emit-value
+                map-options
+                v-if="isBenefi"
               />
 
 
@@ -98,25 +163,34 @@ import moment from "moment";
 import { Utilities } from "src/services/http/utilities";
 import { ServiceAdicional } from "src/services/http/serviceadicional";
 import { Employees } from "src/services/http/employees";
+import { LocalStorage } from 'quasar'
+let localStorageTitular ;
+localStorageTitular = LocalStorage.getItem("identificacionTitular");
 export default {
   name: "ModalNoveltyContract",
 
   data() {
     return {
-
+      isBenefi: false,
+      tipo: "",
       idca: 0,
       idcontrato: "",
       idsadicional: 0,
       valor: 0,
       usuario: "",
       fecha: moment().format("YYYY-MM-DD").toString(),
-      idpersona: "",
+      
+      servicioadicional: "",
       valoranterior: 0,
       fecharetiro:  moment().format("YYYY-MM-DD").toString(),
-      idasesor: "",
+      idasesor: "01V",
+      idpersonaBenefi: localStorageTitular,
       serviciosadicionales: [],
       vendedores: [],
+      titularesBenefi: [],
       idsa: "",
+
+      optTipo: [ "Paga Valor Por el Grupo","Paga valor por Cada Una de las Personas","Paga valor Por una Persona en Especial"],
       textRules: [
         val => (val && val.length > 0) || "Campo Obligatorio (*)",
         val => val.length <= 50 || "Máximo 50 carácteres"
@@ -176,6 +250,10 @@ export default {
       type: String,
       required: true
     },
+    valueField11: {
+      type: String,
+      required: true
+    },
     textAction: {
       type: String,
       required: true
@@ -192,7 +270,7 @@ export default {
     this.idcontrato = this.valueField2
 
     if(this.valueField3 != 0){
-      this.idsadicional = this.valueField3
+      this.idsa = this.valueField3
     }
 
     if(this.valueField4 != 0){
@@ -205,7 +283,14 @@ export default {
         this.fecha = moment(this.valueField6).format('YYYY-MM-DD');
     }
 
-    this.idpersona = this.valueField7
+    if(this.valueField7 != ""){
+         this.idpersonaBenefi = this.valueField7;
+    }else{
+      console.log("idtitular", localStorageTitular)
+      this.idpersonaBenefi = localStorageTitular;
+    }
+
+   
 
     if(this.valueField8 != 0){
       this.valoranterior = this.valueField8
@@ -217,7 +302,17 @@ export default {
         this.fecharetiro =""
     }
     
-    this.idasesor = this.valueField10;
+console.log("tipo cobro llego", this.valueField11)
+    if(this.valueField10 != ""){
+        this.idasesor = this.valueField10;
+    }else{
+      this.idasesor = "01V";
+    }
+
+     if(this.valueField11 != ""){
+        this.tipo = this.valueField11;
+        this.loadServicio(this.valueField11);
+    }
     
   },
 
@@ -250,19 +345,22 @@ export default {
       });
       
       await Promise.all([
-        Utilities.serviceadicional(),
+      // Utilities.serviceadicional('TIPO'),
         Employees.list('VENDEDOR'),      
+        Utilities.titularesBeneficiarios(),      
       ])
         .then(result => {
            console.log(result);
-          this.serviciosadicionales = result[0].data;
-          this.vendedores = result[1].data;
+          //this.serviciosadicionales = result[0].data;
+          this.vendedores = result[0].data;
+          this.titularesBenefi = result[1].data;
          
         })
         .catch((err) => {
           console.log({err})
-          this.serviciosadicionales = [];
+        //  this.serviciosadicionales = [];
           this.vendedores = [];
+          this.titularesBenefi = [];
         });
         
       
@@ -277,9 +375,42 @@ export default {
           console.log(response)
           if (response?.status === 200) {
             this.valor = response.data.valor;
-            console.log("el listado del servicio es ", response.data)
+
+            
+           
           } else {
           // NotifyDialog.triggerNegative("No fue posible cargar los municipios");
+          }
+        })
+      },
+
+      async loadServicio(tipoServicio) {
+       console.log("llego loadServicio")
+        await Utilities.serviceadicional(tipoServicio).then((response) => {
+          if (response?.status === 200) {
+             console.log("el listado del servicio es ", response.data)
+             if(response.data.length > 0){
+                this.serviciosadicionales = response.data;
+                
+             }else{
+                this.idsa = "";
+                this.valor = "0";
+                this.serviciosadicionales = [];
+             }
+
+              if(tipoServicio == "Paga Valor Por el Grupo"){
+                this.isBenefi = false;
+              }
+              else if(tipoServicio == "Paga valor por Cada Una de las Personas"){
+                this.isBenefi = false;
+              }
+              else if(tipoServicio == "Paga valor Por una Persona en Especial"){
+                this.isBenefi = true;
+              }
+            
+           
+          } else {
+           this.serviciosadicionales = [];
           }
         })
       },
@@ -294,11 +425,11 @@ export default {
           this.$emit("ok", {
             idca: this.idca,
             idcontrato: this.idcontrato,
-            idsadicional: this.idsadicional,
+            idsadicional: this.idsa,
             valor: this.valor,
             usuario: this.usuario,
             fecha: this.fecha,
-            idpersona: this.idpersona,
+            idpersona: this.idpersonaBenefi,
             valoranterior: this.valoranterior,
             fecharetiro: this.fecharetiro,
             idasesor: this.idasesor,

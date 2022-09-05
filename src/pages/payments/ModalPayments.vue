@@ -235,7 +235,7 @@ export default {
       idcaja: "",
       idtipopago: "1",
       tipopagos: [],
-      idcobrador: "01",
+      idcobrador: "01C",
     
       textRules: [
         val => (val && val.length > 0) || "Campo Obligatorio (*)",

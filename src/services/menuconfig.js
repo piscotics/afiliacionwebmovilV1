@@ -1,5 +1,11 @@
 const linksMenuConfig = [
    
+    {
+        title: "Usuarios",
+        caption: "Crear Usuarios",
+        icon: "people",
+        link: "/user"
+    },
     
     {
         title: "Zonas",
@@ -31,21 +37,16 @@ const linksMenuConfig = [
         icon: "people",
         link: "/Kinship"
     },
-    {
-        title: "Novedades",
-        caption: "Ingresar Novedades",
-        icon: "description",
-        link: "/noveltycontract"
-    },
    
 
-    {
-        title: "Servicios Adicionales",
-        caption: "Servicios Adicionales",
-        icon: "bookmark_add",
-        link: "/contractadicional"
-    },
+    
 
+    {
+        title: "Sincronizar Datos",
+        caption: "Sincronizar Datos",
+        icon: "sync",
+        link: "/synchronize"
+    },
     
     /* {
         title: "Cámara",

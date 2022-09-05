@@ -4,7 +4,7 @@
       <q-card>
         <q-card-section class="text-center">
           <!-- <div class="text-h6">Parámetros</div> -->
-          <q-img src="@/assets/pisco_logo.png" style="width: 250px" />
+          <q-img src="@/assets/pisco_afiliacion.png" style="width: 250px" />
         </q-card-section>
         <q-card-section>
           <q-input
@@ -37,7 +37,13 @@
               class="btn-optional col-6"
               to="/"
             />
+            <div   class="ion-text-center" >
+                <a style="color: #fa4343; text-decoration: underline; font-size: small;" href="#">
+                    Version 1.5 (26-Ago-2022)
+                </a>
+                </div>
           </div>
+            
         </q-card-section>
       </q-card>
     </div>
@@ -58,6 +64,7 @@ export default {
   },
 
   created() {
+    // this.$q.localStorage.remove("pisco-afilweb");
     this.loadDataConfig(); //Al crearse el componente, se invoca el método
   },
 
